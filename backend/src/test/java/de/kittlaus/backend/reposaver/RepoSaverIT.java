@@ -38,4 +38,13 @@ class RepoSaverIT {
         assertEquals(Objects.requireNonNull(getBody).getUsername(),username);
     }
 
+    @Test
+    void userWithoutGithubShouldNotBeAbleToRegisterAndNotBeFound(){
+        String username = "lkjasdjfkfdsljköjfdlöjkfdljklöfdsjlköasfjöfjjklsff";
+        ResponseEntity<SaverUser> postResponse = testRestTemplate.postForEntity(URL, new NewSaverUser(username), SaverUser.class);
+        assertEquals(HttpStatus.BAD_REQUEST,postResponse.getStatusCode());
+
+        ResponseEntity<SaverUser> getResponse = testRestTemplate.getForEntity(URL +"find/"+ username, SaverUser.class);
+        assertEquals(HttpStatus.NOT_FOUND,getResponse.getStatusCode());
+    }
 }
