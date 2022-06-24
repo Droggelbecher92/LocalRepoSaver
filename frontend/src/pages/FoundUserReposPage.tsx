@@ -1,6 +1,6 @@
 import {useParams} from "react-router-dom";
 import {useEffect, useState} from "react";
-import {getUserRepos} from "../service/githubService";
+import {getGithubUserRepos} from "../service/githubService";
 import {GithubRepo} from "../service/models";
 import GithubRepoCard from "../components/GithubRepoCard";
 
@@ -13,7 +13,7 @@ export default function FoundUserReposPage(){
 
     useEffect(()=>{
         username &&
-        getUserRepos(username)
+        getGithubUserRepos(username)
             .then(data => setRepos(data))
             .catch(() => setErr("User nicht gefunden...."))
     },[username])

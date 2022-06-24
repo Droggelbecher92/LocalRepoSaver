@@ -1,5 +1,5 @@
 import React, {FormEvent, useState} from "react";
-import {getUser} from "../service/githubService";
+import {getGithubUser} from "../service/githubService";
 import {useNavigate} from "react-router-dom";
 
 export default function SearchBar(){
@@ -12,7 +12,7 @@ export default function SearchBar(){
     const searchUser = (ev: FormEvent) => {
         ev.preventDefault()
         setErr('')
-        getUser(name)
+        getGithubUser(name)
             .then(data => {
                 if (data.public_repos===0){
                     setErr(`${name} hat keine öffentlichen Repos`)
