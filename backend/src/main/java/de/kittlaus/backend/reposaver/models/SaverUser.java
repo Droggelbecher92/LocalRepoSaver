@@ -1,6 +1,5 @@
 package de.kittlaus.backend.reposaver.models;
 
-import de.kittlaus.backend.reposaver.models.GithubRepos;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -17,7 +16,7 @@ public class SaverUser {
 
     private final String id = UUID.randomUUID().toString();
 
-    private String githubUsername;
+    private String username;
     private boolean isExistingGithubUser;
     private List<GithubRepos> savedRepos;
 
