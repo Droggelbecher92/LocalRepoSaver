@@ -38,7 +38,7 @@ class RepoSaverServiceTest {
     }
 
     @Test
-    void shouldFindUserById(){
+    void shouldFindUserByName(){
         NewSaverUser testuser = new NewSaverUser("gossie");
         RepoSaverService testService = new RepoSaverService(new RepoSaverRepo());
         //WHEN
@@ -47,6 +47,18 @@ class RepoSaverServiceTest {
         //THEN
         assertTrue(actual.isPresent());
         assertEquals(savedUser,actual.get());
+
+    }
+
+    @Test
+    void shouldNotFindUnknownUserByName(){
+        NewSaverUser testuser = new NewSaverUser("gossie");
+        RepoSaverService testService = new RepoSaverService(new RepoSaverRepo());
+        //WHEN
+        SaverUser savedUser = testService.addNewUser(testuser);
+        Optional<SaverUser> actual = testService.findUser("johnDoe");
+        //THEN
+        assertTrue(actual.isEmpty());
 
     }
 
