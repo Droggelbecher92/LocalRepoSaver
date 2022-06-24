@@ -1,6 +1,6 @@
 package de.kittlaus.backend.reposaver;
 
-import de.kittlaus.backend.reposaver.models.GithubRepos;
+import de.kittlaus.backend.reposaver.models.GithubRepo;
 import de.kittlaus.backend.reposaver.models.NewSaverUser;
 import de.kittlaus.backend.reposaver.models.SaverUser;
 import lombok.RequiredArgsConstructor;
@@ -40,7 +40,7 @@ public class RepoSaverService {
         return true;
     }
 
-    public Optional<SaverUser> addRepoToUser(String username, GithubRepos repoToAdd) throws InstanceAlreadyExistsException {
+    public Optional<SaverUser> addRepoToUser(String username, GithubRepo repoToAdd) throws InstanceAlreadyExistsException {
         return repoSaverRepo.addRepo(username,repoToAdd);
     }
 }

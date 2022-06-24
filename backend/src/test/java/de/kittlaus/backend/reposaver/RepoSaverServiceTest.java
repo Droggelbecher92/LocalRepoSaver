@@ -1,6 +1,6 @@
 package de.kittlaus.backend.reposaver;
 
-import de.kittlaus.backend.reposaver.models.GithubRepos;
+import de.kittlaus.backend.reposaver.models.GithubRepo;
 import de.kittlaus.backend.reposaver.models.NewSaverUser;
 import de.kittlaus.backend.reposaver.models.SaverUser;
 import org.junit.jupiter.api.Test;
@@ -66,7 +66,7 @@ class RepoSaverServiceTest {
     @Test
     void shouldAddNewRepoToList() throws InstanceAlreadyExistsException {
         //GIVEN
-        GithubRepos repoToAdd = new GithubRepos("1","test","test");
+        GithubRepo repoToAdd = new GithubRepo("1","test","test");
         NewSaverUser currentUser = new NewSaverUser("mysterix5");
         RepoSaverService testService = new RepoSaverService(new RepoSaverRepo());
         testService.addNewUser(currentUser);
@@ -82,7 +82,7 @@ class RepoSaverServiceTest {
     @Test
     void shouldNotAddNewRepoToListWithUnknownUser() throws InstanceAlreadyExistsException {
         //GIVEN
-        GithubRepos repoToAdd = new GithubRepos("1","test","test");
+        GithubRepo repoToAdd = new GithubRepo("1","test","test");
         NewSaverUser currentUser = new NewSaverUser("mysterix5");
         RepoSaverService testService = new RepoSaverService(new RepoSaverRepo());
         //WHEN
@@ -94,7 +94,7 @@ class RepoSaverServiceTest {
     @Test
     void shouldNotAddDuplicateRepoToList() throws InstanceAlreadyExistsException {
         //GIVEN
-        GithubRepos repoToAdd = new GithubRepos("1","test","test");
+        GithubRepo repoToAdd = new GithubRepo("1","test","test");
         NewSaverUser currentUser = new NewSaverUser("mysterix5");
         RepoSaverService testService = new RepoSaverService(new RepoSaverRepo());
         testService.addNewUser(currentUser);

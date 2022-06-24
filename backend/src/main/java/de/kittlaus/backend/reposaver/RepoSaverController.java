@@ -1,5 +1,6 @@
 package de.kittlaus.backend.reposaver;
 
+import de.kittlaus.backend.reposaver.models.GithubRepo;
 import de.kittlaus.backend.reposaver.models.NewSaverUser;
 import de.kittlaus.backend.reposaver.models.SaverUser;
 import lombok.RequiredArgsConstructor;
@@ -7,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.management.InstanceAlreadyExistsException;
 import java.util.Optional;
 
 import static org.springframework.http.ResponseEntity.badRequest;
@@ -33,6 +35,15 @@ public class RepoSaverController {
     @GetMapping("find/{name}")
     public ResponseEntity<SaverUser> getUserByUsername (@PathVariable String name){
         return ResponseEntity.of(repoSaverService.findUser(name));
+    }
+
+    @PutMapping("add/{name}")
+    public ResponseEntity<SaverUser> putNewTaskToList(@PathVariable String name, @RequestBody GithubRepo repoToAdd){
+        try {
+            return ResponseEntity.of(repoSaverService.addRepoToUser(name,repoToAdd));
+        } catch (InstanceAlreadyExistsException e){
+            return new ResponseEntity<>(HttpStatus.CONFLICT);
+        }
     }
 
 }

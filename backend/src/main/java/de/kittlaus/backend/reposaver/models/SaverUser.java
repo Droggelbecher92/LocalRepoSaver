@@ -17,6 +17,6 @@ public class SaverUser {
     private final String id = UUID.randomUUID().toString();
 
     private String username;
-    private List<GithubRepos> savedRepos;
+    private List<GithubRepo> savedRepos;
 
 }
