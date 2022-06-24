@@ -66,11 +66,31 @@ class RepoSaverServiceTest {
     void shouldAddNewRepoToList(){
         //GIVEN
         GithubRepos repoToAdd = new GithubRepos("1","test","test");
-        SaverUser currentUser = new SaverUser("mysterix5",new ArrayList<>());
+        NewSaverUser currentUser = new NewSaverUser("mysterix5");
         RepoSaverService testService = new RepoSaverService(new RepoSaverRepo());
+        testService.addNewUser(currentUser);
         //WHEN
-        SaverUser actual = testService.addRepoToUser(currentUser.getUsername(),repoToAdd);
+        Optional<SaverUser> optActual = testService.addRepoToUser(currentUser.getUsername(),repoToAdd);
         //THEN
+        assertTrue(optActual.isPresent());
+        SaverUser actual = optActual.get();
+        assertEquals(1, actual.getSavedRepos().size());
+        assertEquals(actual.getSavedRepos().get(0),repoToAdd);
+    }
+
+    @Test
+    void shouldNotAddDuplicateRepoToList(){
+        //GIVEN
+        GithubRepos repoToAdd = new GithubRepos("1","test","test");
+        NewSaverUser currentUser = new NewSaverUser("mysterix5");
+        RepoSaverService testService = new RepoSaverService(new RepoSaverRepo());
+        testService.addNewUser(currentUser);
+        //WHEN
+        testService.addRepoToUser(currentUser.getUsername(),repoToAdd);
+        Optional<SaverUser> optActual = testService.addRepoToUser(currentUser.getUsername(),repoToAdd);
+        //THEN
+        assertTrue(optActual.isPresent());
+        SaverUser actual = optActual.get();
         assertEquals(1, actual.getSavedRepos().size());
         assertEquals(actual.getSavedRepos().get(0),repoToAdd);
     }

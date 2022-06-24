@@ -1,9 +1,11 @@
 package de.kittlaus.backend.reposaver;
 
+import de.kittlaus.backend.reposaver.models.GithubRepos;
 import de.kittlaus.backend.reposaver.models.SaverUser;
 import org.springframework.stereotype.Repository;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -20,5 +22,14 @@ public class RepoSaverRepo {
 
     public Optional<SaverUser> findByName(String searchedUsername) {
         return allUsers.values().stream().filter(user -> user.getUsername().equals(searchedUsername)).findFirst();
+    }
+
+    public Optional<SaverUser> addRepo(String username, GithubRepos repoToAdd) {
+        Optional<SaverUser> optFoundUser = findByName(username);
+        if (optFoundUser.isPresent()){
+            List<GithubRepos> savedRepos = optFoundUser.get().getSavedRepos();
+            savedRepos.add(repoToAdd);
+        }
+        return optFoundUser;
     }
 }

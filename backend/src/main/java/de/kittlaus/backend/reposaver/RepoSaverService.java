@@ -1,9 +1,9 @@
 package de.kittlaus.backend.reposaver;
 
+import de.kittlaus.backend.reposaver.models.GithubRepos;
 import de.kittlaus.backend.reposaver.models.NewSaverUser;
 import de.kittlaus.backend.reposaver.models.SaverUser;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
@@ -39,4 +39,7 @@ public class RepoSaverService {
         return true;
     }
 
+    public Optional<SaverUser> addRepoToUser(String username, GithubRepos repoToAdd) {
+        return repoSaverRepo.addRepo(username,repoToAdd);
+    }
 }
