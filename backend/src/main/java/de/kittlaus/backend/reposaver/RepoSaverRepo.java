@@ -36,4 +36,15 @@ public class RepoSaverRepo {
         }
         return optFoundUser;
     }
+
+    public Optional<SaverUser> removeRepo(String username, GithubRepo repoToRemove) {
+        Optional<SaverUser> optFoundUser = findByName(username);
+        if (optFoundUser.isPresent()){
+            if (optFoundUser.get().getSavedRepos().contains(repoToRemove)){
+                List<GithubRepo> savedRepos = optFoundUser.get().getSavedRepos();
+                savedRepos.remove(repoToRemove);
+            }
+        }
+        return optFoundUser;
+    }
 }

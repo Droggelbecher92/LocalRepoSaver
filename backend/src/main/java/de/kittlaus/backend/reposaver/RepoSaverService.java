@@ -43,4 +43,8 @@ public class RepoSaverService {
     public Optional<SaverUser> addRepoToUser(String username, GithubRepo repoToAdd) throws InstanceAlreadyExistsException {
         return repoSaverRepo.addRepo(username,repoToAdd);
     }
+
+    public Optional<SaverUser> removeRepoFromUser(String username, GithubRepo repoToRemove) {
+        return repoSaverRepo.removeRepo(username,repoToRemove);
+    }
 }
