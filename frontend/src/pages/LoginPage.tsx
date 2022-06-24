@@ -15,7 +15,7 @@ export default function LoginPage(){
         setError('')
         login ?
             getUser(userInput)
-                .then(()=>nav(`home/${userInput}`))
+                .then(()=>nav(`/home/${userInput}`))
                 .catch(err => {
                     setError("Nutzer nicht gefunden")
                     setUserInput('')

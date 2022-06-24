@@ -17,7 +17,7 @@ export default function SearchBar(){
                 if (data.public_repos===0){
                     setErr(`${name} hat keine öffentlichen Repos`)
                 } else {
-                    nav(`repos/${name}`)
+                    nav(`/repos/${name}`)
                 }
             })
             .catch(() => setErr(`${name} nicht gefunden`))
