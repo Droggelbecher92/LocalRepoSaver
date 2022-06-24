@@ -108,6 +108,22 @@ class RepoSaverServiceTest {
         }
     }
 
+    @Test
+    void shouldDeleteRepoFromList() throws InstanceAlreadyExistsException {
+        //GIVEN
+        GithubRepo repoToAdd = new GithubRepo("1","test","test");
+        NewSaverUser currentUser = new NewSaverUser("mysterix5");
+        RepoSaverService testService = new RepoSaverService(new RepoSaverRepo());
+        testService.addNewUser(currentUser);
+        testService.addRepoToUser(currentUser.getUsername(),repoToAdd);
+        //WHEN
+        Optional<SaverUser> optActual = testService.removeRepoFromUser(currentUser.getUsername(),repoToAdd);
+        //THEN
+        assertTrue(optActual.isPresent());
+        SaverUser actual = optActual.get();
+        assertEquals(0,actual.getSavedRepos().size());
+    }
+
 
 }
 
