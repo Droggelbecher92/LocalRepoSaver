@@ -10,3 +10,9 @@ export interface GithubRepo {
     name: string,
     html_url: string,
 }
+
+export interface SaverUser {
+    id : string,
+    username : string,
+    savedRepos : Array<GithubRepo>
+}

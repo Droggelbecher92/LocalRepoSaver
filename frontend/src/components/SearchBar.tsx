@@ -2,7 +2,11 @@ import React, {FormEvent, useState} from "react";
 import {getGithubUser} from "../service/githubService";
 import {useNavigate} from "react-router-dom";
 
-export default function SearchBar(){
+interface SearchBarProps{
+    user : string
+}
+
+export default function SearchBar({user}:SearchBarProps){
 
     const [name, setName] = useState(localStorage.getItem('searchname')??'')
     const [err, setErr] = useState('')
@@ -17,7 +21,7 @@ export default function SearchBar(){
                 if (data.public_repos===0){
                     setErr(`${name} hat keine öffentlichen Repos`)
                 } else {
-                    nav(`/repos/${name}`)
+                    nav(`/repos/${user}/${name}`)
                 }
             })
             .catch(() => setErr(`${name} nicht gefunden`))

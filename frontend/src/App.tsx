@@ -11,7 +11,7 @@ export default function App() {
         <Routes>
             <Route path={'/'} element={<LoginPage/>}/>
             <Route path={'/home/:username'} element={<HomePage/>}/>
-            <Route path={'/repos/:username'} element={<FoundUserReposPage/>}/>
+            <Route path={'/repos/:username/:owner'} element={<FoundUserReposPage/>}/>
         </Routes>
       </BrowserRouter>
   );
