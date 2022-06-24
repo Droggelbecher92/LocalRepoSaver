@@ -14,9 +14,8 @@ import java.util.UUID;
 public class GithubRepos {
 
 
-    private final String id = UUID.randomUUID().toString();
+    private String id;
     private String name;
     private String html_url;
-    private String language;
 
 }
