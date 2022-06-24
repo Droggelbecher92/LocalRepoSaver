@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
+import javax.management.InstanceAlreadyExistsException;
 import java.util.ArrayList;
 import java.util.Optional;
 
@@ -39,7 +40,7 @@ public class RepoSaverService {
         return true;
     }
 
-    public Optional<SaverUser> addRepoToUser(String username, GithubRepos repoToAdd) {
+    public Optional<SaverUser> addRepoToUser(String username, GithubRepos repoToAdd) throws InstanceAlreadyExistsException {
         return repoSaverRepo.addRepo(username,repoToAdd);
     }
 }

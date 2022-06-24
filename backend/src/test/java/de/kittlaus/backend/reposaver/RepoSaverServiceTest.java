@@ -5,6 +5,7 @@ import de.kittlaus.backend.reposaver.models.NewSaverUser;
 import de.kittlaus.backend.reposaver.models.SaverUser;
 import org.junit.jupiter.api.Test;
 
+import javax.management.InstanceAlreadyExistsException;
 import java.util.ArrayList;
 import java.util.Optional;
 
@@ -63,7 +64,7 @@ class RepoSaverServiceTest {
     }
 
     @Test
-    void shouldAddNewRepoToList(){
+    void shouldAddNewRepoToList() throws InstanceAlreadyExistsException {
         //GIVEN
         GithubRepos repoToAdd = new GithubRepos("1","test","test");
         NewSaverUser currentUser = new NewSaverUser("mysterix5");
@@ -79,7 +80,19 @@ class RepoSaverServiceTest {
     }
 
     @Test
-    void shouldNotAddDuplicateRepoToList(){
+    void shouldNotAddNewRepoToListWithUnknownUser() throws InstanceAlreadyExistsException {
+        //GIVEN
+        GithubRepos repoToAdd = new GithubRepos("1","test","test");
+        NewSaverUser currentUser = new NewSaverUser("mysterix5");
+        RepoSaverService testService = new RepoSaverService(new RepoSaverRepo());
+        //WHEN
+        Optional<SaverUser> optActual = testService.addRepoToUser(currentUser.getUsername(),repoToAdd);
+        //THEN
+        assertTrue(optActual.isEmpty());
+    }
+
+    @Test
+    void shouldNotAddDuplicateRepoToList() throws InstanceAlreadyExistsException {
         //GIVEN
         GithubRepos repoToAdd = new GithubRepos("1","test","test");
         NewSaverUser currentUser = new NewSaverUser("mysterix5");
@@ -87,12 +100,12 @@ class RepoSaverServiceTest {
         testService.addNewUser(currentUser);
         //WHEN
         testService.addRepoToUser(currentUser.getUsername(),repoToAdd);
-        Optional<SaverUser> optActual = testService.addRepoToUser(currentUser.getUsername(),repoToAdd);
-        //THEN
-        assertTrue(optActual.isPresent());
-        SaverUser actual = optActual.get();
-        assertEquals(1, actual.getSavedRepos().size());
-        assertEquals(actual.getSavedRepos().get(0),repoToAdd);
+        try {
+            testService.addRepoToUser(currentUser.getUsername(),repoToAdd);
+        } catch (InstanceAlreadyExistsException e){
+            //THEN
+            assertTrue(true);
+        }
     }
 
 
