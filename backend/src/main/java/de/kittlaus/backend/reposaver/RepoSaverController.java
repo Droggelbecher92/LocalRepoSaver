@@ -7,6 +7,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Optional;
+
+import static org.springframework.http.ResponseEntity.badRequest;
+
 @RestController
 @RequiredArgsConstructor
 @CrossOrigin
@@ -17,8 +21,13 @@ public class RepoSaverController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public SaverUser postNewUser (@RequestBody NewSaverUser newUser){
-        return repoSaverService.addNewUser(newUser);
+    public ResponseEntity<SaverUser> postNewUser (@RequestBody NewSaverUser newUser){
+
+        Optional<SaverUser> answer = repoSaverService.addNewUser(newUser);
+        if (answer.isEmpty()){
+              new ResponseEntity<SaverUser>(HttpStatus.BAD_REQUEST);
+        }
+        return ResponseEntity.of(answer);
     }
 
     @GetMapping("find/{name}")

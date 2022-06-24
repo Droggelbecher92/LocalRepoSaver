@@ -17,9 +17,16 @@ public class RepoSaverService {
 
     private final RepoSaverRepo repoSaverRepo;
 
-    public SaverUser addNewUser(NewSaverUser userToAdd) {
-        SaverUser newUser = new SaverUser(userToAdd.getUsername(), checkIfUserExits(userToAdd.getUsername()),new ArrayList<>());
-        return repoSaverRepo.addNewUser(newUser);
+    public Optional<SaverUser> addNewUser(NewSaverUser userToAdd) {
+        if (checkIfUserExits(userToAdd.getUsername())){
+            SaverUser newUser = new SaverUser(userToAdd.getUsername(),new ArrayList<>());
+            return Optional.of(repoSaverRepo.addNewUser(newUser));
+        }
+        return Optional.empty();
+    }
+
+    public Optional<SaverUser> findUser(String searchedUsername) {
+        return repoSaverRepo.findByName(searchedUsername);
     }
 
     private boolean checkIfUserExits(String username) {
@@ -32,8 +39,4 @@ public class RepoSaverService {
         return true;
     }
 
-
-    public Optional<SaverUser> findUser(String searchedUsername) {
-        return repoSaverRepo.findByName(searchedUsername);
-    }
 }

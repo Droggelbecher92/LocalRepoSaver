@@ -17,11 +17,12 @@ class RepoSaverServiceTest {
         NewSaverUser testuser = new NewSaverUser("Droggelbecher92");
         RepoSaverService testService = new RepoSaverService(new RepoSaverRepo());
         //WHEN
-        SaverUser actual = testService.addNewUser(testuser);
+        Optional<SaverUser> actualOpt = testService.addNewUser(testuser);
         //THEN
+        assertTrue(actualOpt.isPresent());
+        SaverUser actual = actualOpt.get();
         assertEquals(new ArrayList<>(),actual.getSavedRepos());
         assertEquals(testuser.getUsername(),actual.getUsername());
-        assertTrue(actual.isExistingGithubUser());
     }
 
     @Test
@@ -30,11 +31,9 @@ class RepoSaverServiceTest {
         NewSaverUser testuser = new NewSaverUser("ajdsfjkasdjkfjköasdfjkdjksaf");
         RepoSaverService testService = new RepoSaverService(new RepoSaverRepo());
         //WHEN
-        SaverUser actual = testService.addNewUser(testuser);
+        Optional<SaverUser> actualOpt = testService.addNewUser(testuser);
         //THEN
-        assertEquals(new ArrayList<>(),actual.getSavedRepos());
-        assertEquals(testuser.getUsername(),actual.getUsername());
-        assertFalse(actual.isExistingGithubUser());
+        assertTrue(actualOpt.isEmpty());
     }
 
     @Test
@@ -42,7 +41,7 @@ class RepoSaverServiceTest {
         NewSaverUser testuser = new NewSaverUser("gossie");
         RepoSaverService testService = new RepoSaverService(new RepoSaverRepo());
         //WHEN
-        SaverUser savedUser = testService.addNewUser(testuser);
+        SaverUser savedUser = testService.addNewUser(testuser).get();
         Optional<SaverUser> actual = testService.findUser(savedUser.getUsername());
         //THEN
         assertTrue(actual.isPresent());
@@ -55,7 +54,7 @@ class RepoSaverServiceTest {
         NewSaverUser testuser = new NewSaverUser("gossie");
         RepoSaverService testService = new RepoSaverService(new RepoSaverRepo());
         //WHEN
-        SaverUser savedUser = testService.addNewUser(testuser);
+        SaverUser savedUser = testService.addNewUser(testuser).get();
         Optional<SaverUser> actual = testService.findUser("johnDoe");
         //THEN
         assertTrue(actual.isEmpty());

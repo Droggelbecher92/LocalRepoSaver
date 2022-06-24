@@ -17,7 +17,6 @@ public class SaverUser {
     private final String id = UUID.randomUUID().toString();
 
     private String username;
-    private boolean isExistingGithubUser;
     private List<GithubRepos> savedRepos;
 
 }
