@@ -1,5 +1,6 @@
-package de.kittlaus.backend.reposaver;
+package de.kittlaus.backend.reposaver.models;
 
+import de.kittlaus.backend.reposaver.models.GithubRepos;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
