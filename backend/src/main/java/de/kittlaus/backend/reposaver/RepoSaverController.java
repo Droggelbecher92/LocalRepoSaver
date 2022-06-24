@@ -22,12 +22,12 @@ public class RepoSaverController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<SaverUser> postNewUser (@RequestBody NewSaverUser newUser){
-
         Optional<SaverUser> answer = repoSaverService.addNewUser(newUser);
         if (answer.isEmpty()){
-              new ResponseEntity<SaverUser>(HttpStatus.BAD_REQUEST);
+             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        } else {
+            return new ResponseEntity<>(answer.get(),HttpStatus.CREATED);
         }
-        return ResponseEntity.of(answer);
     }
 
     @GetMapping("find/{name}")
