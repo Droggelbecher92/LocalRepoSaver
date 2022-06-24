@@ -36,4 +36,16 @@ class RepoSaverServiceTest {
         assertFalse(actual.isExistingGithubUser());
     }
 
+    @Test
+    void shouldFindUserById(){
+        NewSaverUser testuser = new NewSaverUser("ajdsfjkasdjkfjköasdfjkdjksaf");
+        RepoSaverService testService = new RepoSaverService(new RepoSaverRepo());
+        //WHEN
+        SaverUser savedUser = testService.addNewUser(testuser);
+        SaverUser actual = testService.findUserById(savedUser.getId());
+        //THEN
+        assertEquals(savedUser,actual);
+
+    }
+
 }
