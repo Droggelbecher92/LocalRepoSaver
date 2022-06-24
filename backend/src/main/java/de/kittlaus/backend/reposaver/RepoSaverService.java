@@ -9,6 +9,7 @@ import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -29,5 +30,10 @@ public class RepoSaverService {
             return false;
         }
         return true;
+    }
+
+
+    public Optional<SaverUser> findUser(String searchedUsername) {
+        return repoSaverRepo.findByName(searchedUsername);
     }
 }

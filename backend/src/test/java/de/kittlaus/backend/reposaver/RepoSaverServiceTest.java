@@ -5,6 +5,7 @@ import de.kittlaus.backend.reposaver.models.SaverUser;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -38,13 +39,14 @@ class RepoSaverServiceTest {
 
     @Test
     void shouldFindUserById(){
-        NewSaverUser testuser = new NewSaverUser("ajdsfjkasdjkfjköasdfjkdjksaf");
+        NewSaverUser testuser = new NewSaverUser("gossie");
         RepoSaverService testService = new RepoSaverService(new RepoSaverRepo());
         //WHEN
         SaverUser savedUser = testService.addNewUser(testuser);
-        SaverUser actual = testService.findUserById(savedUser.getId());
+        Optional<SaverUser> actual = testService.findUser(savedUser.getUsername());
         //THEN
-        assertEquals(savedUser,actual);
+        assertTrue(actual.isPresent());
+        assertEquals(savedUser,actual.get());
 
     }
 
