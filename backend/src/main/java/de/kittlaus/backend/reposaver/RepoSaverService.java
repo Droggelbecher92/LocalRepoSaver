@@ -1,5 +1,6 @@
 package de.kittlaus.backend.reposaver;
 
+import de.kittlaus.backend.reposaver.models.NewSaverUser;
 import de.kittlaus.backend.reposaver.models.SaverUser;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -15,10 +16,9 @@ public class RepoSaverService {
 
     private final RepoSaverRepo repoSaverRepo;
 
-    public SaverUser addNewUser(SaverUser userToAdd) {
-        userToAdd.setSavedRepos(new ArrayList<>());
-        userToAdd.setExistingGithubUser(checkIfUserExits(userToAdd.getUsername()));
-        return repoSaverRepo.addNewUser(userToAdd);
+    public SaverUser addNewUser(NewSaverUser userToAdd) {
+        SaverUser newUser = new SaverUser(userToAdd.getUsername(), checkIfUserExits(userToAdd.getUsername()),new ArrayList<>());
+        return repoSaverRepo.addNewUser(newUser);
     }
 
     private boolean checkIfUserExits(String username) {

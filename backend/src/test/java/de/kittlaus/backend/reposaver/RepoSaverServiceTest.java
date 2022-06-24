@@ -1,7 +1,10 @@
 package de.kittlaus.backend.reposaver;
 
+import de.kittlaus.backend.reposaver.models.NewSaverUser;
 import de.kittlaus.backend.reposaver.models.SaverUser;
 import org.junit.jupiter.api.Test;
+
+import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -10,14 +13,12 @@ class RepoSaverServiceTest {
     @Test
     void shouldAddNewUser(){
         //GIVEN
-        SaverUser testuser = SaverUser.builder()
-                .username("Droggelbecher92")
-                .build();
+        NewSaverUser testuser = new NewSaverUser("Droggelbecher92");
         RepoSaverService testService = new RepoSaverService(new RepoSaverRepo());
         //WHEN
         SaverUser actual = testService.addNewUser(testuser);
         //THEN
-        assertEquals(testuser.getSavedRepos(),actual.getSavedRepos());
+        assertEquals(new ArrayList<>(),actual.getSavedRepos());
         assertEquals(testuser.getUsername(),actual.getUsername());
         assertTrue(actual.isExistingGithubUser());
     }
@@ -25,14 +26,12 @@ class RepoSaverServiceTest {
     @Test
     void shouldAddNewUserWithoutGithubAcc(){
         //GIVEN
-        SaverUser testuser = SaverUser.builder()
-                .username("ajdsfjkasdjkfjköasdfjkdjksaf")
-                .build();
+        NewSaverUser testuser = new NewSaverUser("ajdsfjkasdjkfjköasdfjkdjksaf");
         RepoSaverService testService = new RepoSaverService(new RepoSaverRepo());
         //WHEN
         SaverUser actual = testService.addNewUser(testuser);
         //THEN
-        assertEquals(testuser.getSavedRepos(),actual.getSavedRepos());
+        assertEquals(new ArrayList<>(),actual.getSavedRepos());
         assertEquals(testuser.getUsername(),actual.getUsername());
         assertFalse(actual.isExistingGithubUser());
     }
