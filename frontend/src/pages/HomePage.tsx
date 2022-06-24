@@ -7,8 +7,8 @@ export default function HomePage(){
         <div className={'homePage'}>
             <Heading/>
             <SearchBar/>
-            <FavButton/>
-            <FavButton/>
+            <FavButton own={false}/>
+            <FavButton own={true}/>
         </div>
     )
 }

@@ -1,9 +1,18 @@
 import React from "react";
 
-export default function FavButton(){
+interface FavButtonProps{
+    own : boolean
+}
+
+export default function FavButton({own}:FavButtonProps){
     return(
-        <div className={'favButton'}>
-            <button>Gespeicherte Repos</button>
-        </div>
+        own ?
+                <div className={'favButton'}>
+                    <button>Eigene Repos</button>
+                </div>
+                :
+                <div className={'favButton'}>
+                    <button>Gespeicherte Repos</button>
+                </div>
     )
 }
