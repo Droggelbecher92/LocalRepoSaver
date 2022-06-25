@@ -31,16 +31,6 @@ public class RepoSaverService {
         return repoSaverRepo.findByUsername(searchedUsername);
     }
 
-    private boolean checkIfUserExits(String username) {
-        RestTemplate restTemplate = new RestTemplate();
-        try {
-            restTemplate.getForEntity("https://api.github.com/users/" + username, Object.class);
-        }catch (HttpClientErrorException err){
-            return false;
-        }
-        return true;
-    }
-
     public Optional<SaverUser> addRepoToUser(String username, GithubRepo repoToAdd) throws InstanceAlreadyExistsException {
         Optional<SaverUser> optUser = findUser(username);
         if (optUser.isEmpty()){
@@ -65,5 +55,15 @@ public class RepoSaverService {
         }
         user.getSavedRepos().remove(repoToRemove);
         return Optional.of(repoSaverRepo.save(user));
+    }
+
+    private boolean checkIfUserExits(String username) {
+        RestTemplate restTemplate = new RestTemplate();
+        try {
+            restTemplate.getForEntity("https://api.github.com/users/" + username, Object.class);
+        }catch (HttpClientErrorException err){
+            return false;
+        }
+        return true;
     }
 }
