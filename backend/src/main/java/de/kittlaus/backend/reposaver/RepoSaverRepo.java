@@ -16,35 +16,12 @@ public class RepoSaverRepo {
     private Map<String,SaverUser> allUsers = new HashMap<>();
 
 
-    public SaverUser addNewUser(SaverUser userToAdd) {
+    public SaverUser save(SaverUser userToAdd) {
         allUsers.put(userToAdd.getId(),userToAdd);
         return userToAdd;
     }
 
-    public Optional<SaverUser> findByName(String searchedUsername) {
+    public Optional<SaverUser> findByUsername(String searchedUsername) {
         return allUsers.values().stream().filter(user -> user.getUsername().equals(searchedUsername)).findFirst();
-    }
-
-    public Optional<SaverUser> addRepo(String username, GithubRepo repoToAdd) throws InstanceAlreadyExistsException {
-        Optional<SaverUser> optFoundUser = findByName(username);
-        if (optFoundUser.isPresent()){
-            if (optFoundUser.get().getSavedRepos().contains(repoToAdd)){
-                throw new InstanceAlreadyExistsException();
-            }
-            List<GithubRepo> savedRepos = optFoundUser.get().getSavedRepos();
-            savedRepos.add(repoToAdd);
-        }
-        return optFoundUser;
-    }
-
-    public Optional<SaverUser> removeRepo(String username, GithubRepo repoToRemove) {
-        Optional<SaverUser> optFoundUser = findByName(username);
-        if (optFoundUser.isPresent()){
-            if (optFoundUser.get().getSavedRepos().contains(repoToRemove)){
-                List<GithubRepo> savedRepos = optFoundUser.get().getSavedRepos();
-                savedRepos.remove(repoToRemove);
-            }
-        }
-        return optFoundUser;
     }
 }

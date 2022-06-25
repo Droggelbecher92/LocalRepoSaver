@@ -10,6 +10,7 @@ import org.springframework.web.client.RestTemplate;
 
 import javax.management.InstanceAlreadyExistsException;
 import java.util.ArrayList;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @Service
@@ -21,13 +22,13 @@ public class RepoSaverService {
     public Optional<SaverUser> addNewUser(NewSaverUser userToAdd) {
         if (checkIfUserExits(userToAdd.getUsername())){
             SaverUser newUser = new SaverUser(userToAdd.getUsername(),new ArrayList<>());
-            return Optional.of(repoSaverRepo.addNewUser(newUser));
+            return Optional.of(repoSaverRepo.save(newUser));
         }
         return Optional.empty();
     }
 
     public Optional<SaverUser> findUser(String searchedUsername) {
-        return repoSaverRepo.findByName(searchedUsername);
+        return repoSaverRepo.findByUsername(searchedUsername);
     }
 
     private boolean checkIfUserExits(String username) {
@@ -41,10 +42,28 @@ public class RepoSaverService {
     }
 
     public Optional<SaverUser> addRepoToUser(String username, GithubRepo repoToAdd) throws InstanceAlreadyExistsException {
-        return repoSaverRepo.addRepo(username,repoToAdd);
+        Optional<SaverUser> optUser = findUser(username);
+        if (optUser.isEmpty()){
+            return optUser;
+        }
+        SaverUser user = optUser.get();
+        if (user.getSavedRepos().contains(repoToAdd)){
+            throw new InstanceAlreadyExistsException();
+        }
+        user.getSavedRepos().add(repoToAdd);
+        return Optional.of(repoSaverRepo.save(user));
     }
 
     public Optional<SaverUser> removeRepoFromUser(String username, GithubRepo repoToRemove) {
-        return repoSaverRepo.removeRepo(username,repoToRemove);
+        Optional<SaverUser> optUser = findUser(username);
+        if (optUser.isEmpty()){
+            return optUser;
+        }
+        SaverUser user = optUser.get();
+        if (!user.getSavedRepos().contains(repoToRemove)){
+            throw new NoSuchElementException();
+        }
+        user.getSavedRepos().remove(repoToRemove);
+        return Optional.of(repoSaverRepo.save(user));
     }
 }
